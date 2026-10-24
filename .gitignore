@@ -1,0 +1,13 @@
+# Python 运行缓存
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 运行时图片与敏感配置
+storage/images/*
+!storage/images/.gitkeep
+.env
+
+# 虚拟环境与系统文件
+venv/
+.DS_Store
