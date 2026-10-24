@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  imagefree-2api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: imagefree-2api:latest
+    container_name: imagefree-2api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3020}:3020"
+    environment:
+      - BASE_DIR=/app
+      - DATA_DIR=/app/data
+      - UPSTREAM_BASE=https://imagefree.net
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # 持久化存储：包含 API Key 配置、代理池列表、生成图片缓存及历史画廊记录
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3020/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
